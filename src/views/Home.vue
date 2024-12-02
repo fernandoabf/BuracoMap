@@ -22,11 +22,19 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <v-btn to="/register" color="primary"> Registrar Buraco </v-btn>
-            <v-btn to="/view" color="secondary"> Ver Buracos </v-btn>
-            <v-btn to="/documentation" color="grey">
-              Documentação da API
-            </v-btn>
+            <v-row class="d-flex flex-wrap justify-center" no-gutters>
+              <v-col cols="12" sm="auto" class="d-flex justify-center mb-2">
+                <v-btn to="/register" color="primary"> Registrar Buraco </v-btn>
+              </v-col>
+              <v-col cols="12" sm="auto" class="d-flex justify-center mb-2">
+                <v-btn to="/view" color="secondary"> Ver Buracos </v-btn>
+              </v-col>
+              <v-col cols="12" sm="auto" class="d-flex justify-center">
+                <v-btn to="/documentation" color="grey">
+                  Documentação da API
+                </v-btn>
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -34,14 +42,7 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "Home",
-};
-</script>
-
 <style scoped>
-/* Adicionando algum estilo opcional */
 .v-card-text {
   margin-bottom: 20px;
 }

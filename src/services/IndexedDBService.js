@@ -9,15 +9,12 @@ export default {
           keyPath: "id",
           autoIncrement: true,
         });
-        objectStore.createIndex("city_state", ["city", "state"], {
-          unique: false,
-        });
-        objectStore.createIndex("zipCode", "zipCode", { unique: false }); // Índice para o CEP
+        objectStore.createIndex("zipCode", "zipCode", { unique: false }); // Usar apenas o índice de CEP
       }
     };
 
     request.onsuccess = function (event) {
-      console.log("IndexedDB ready, ", event);
+      console.log("IndexedDB pronto, ", event);
     };
 
     request.onerror = function (event) {
@@ -25,47 +22,22 @@ export default {
     };
   },
 
-  saveBuracoToCity(city, state, buraco) {
+  saveBuracoToZipCode(zipCode, buraco) {
     const request = indexedDB.open("potholeDB", 1);
 
     request.onsuccess = function (event) {
       const db = event.target.result;
       const transaction = db.transaction("potholes", "readwrite");
       const store = transaction.objectStore("potholes");
-      buraco.city = city;
-      buraco.state = state;
 
+      // Adiciona o buraco ao store com base no CEP
+      buraco.zipCode = zipCode;
       store.add(buraco);
     };
 
     request.onerror = function (event) {
       console.error("Erro ao salvar o buraco", event);
     };
-  },
-
-  getAllPotholes() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open("potholeDB", 1);
-
-      request.onsuccess = function (event) {
-        const db = event.target.result;
-        const transaction = db.transaction("potholes", "readonly");
-        const store = transaction.objectStore("potholes");
-        const allBuracos = store.getAll(); // Obtém todos os buracos
-
-        allBuracos.onsuccess = function () {
-          resolve(allBuracos.result);
-        };
-
-        allBuracos.onerror = function () {
-          reject("Erro ao buscar os buracos");
-        };
-      };
-
-      request.onerror = function (event) {
-        reject("Erro ao abrir o IndexedDB", event);
-      };
-    });
   },
 
   getPotholesByZipCode(zipCode) {
